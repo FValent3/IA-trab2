@@ -5,10 +5,6 @@ import sys, os
 pathfinder_parser = DSC_parser("Data/win95pts.dsc")
 pathfinder_parser.create_BayesNet()
 pathfinder = pathfinder_parser.BayesNet
-print(pathfinder.lookup.values())
 
-
-#prod = 1
-#for x in [len(v.domain) for v in pathfinder.variables]:
-#    prod *= x
-#   print(prod)
+# A classe de pathfinder BayasNet possui dois atributos um com as labels e outro um dicionario que uma das chaves e uma tabela de valores
+# e so adequar e montar a arvore
