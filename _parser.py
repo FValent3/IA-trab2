@@ -8,11 +8,19 @@ import itertools
 import random
 import collections
 from basic_classes import BayesNet, updateTuple, globalize
+import neticapy
 
+Node = collections.namedtuple(
+    'Node', 'ord id name values position label category parents childnum')
 
 class DSC_parser:
     def __init__(self, filename):
-        self.input = open(filename, "r").read()
+        env = neticapy.Environ()
+        res, mesg = env.init_netica()
+        print(mesg)
+        if res < 0:
+            raise SystemExit
+        self.input = env.new_file_stream(filename).read_net(neticapy.ReadingOption.NO_VISUAL_INFO)
         self.nodes = {}
         self.cpts = {}
         self.BayesNet = BayesNet()
@@ -34,7 +42,7 @@ class DSC_parser:
 
     def parse_nodes(self):
         node_str = re.findall(
-            r'(node [^\{]*?\{[^\{]*?\{[^\}]*?\}[^\}]*?\})([\s]*?)', self.input, re.M | re.I | re.S)
+            r'(node [^\{]*?\{[^\{]*?\{[^\}]*?\}[^\}]*?\})([\s]*?)', self.input.nodes, re.M | re.I | re.S)
         nodes = []
         count = 0
         for r in node_str:
@@ -121,5 +129,4 @@ class DSC_parser:
         globalize(self.BayesNet.lookup)
         #self.jointDist = joint_distribution(self.BayesNet)
 
-Node = collections.namedtuple(
-    'Node', 'ord id name values position label category parents childnum')
+
