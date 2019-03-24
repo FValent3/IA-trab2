@@ -8,19 +8,14 @@ import itertools
 import random
 import collections
 from basic_classes import BayesNet, updateTuple, globalize
-import neticapy
 
 Node = collections.namedtuple(
     'Node', 'ord id name values position label category parents childnum')
 
+
 class DSC_parser:
     def __init__(self, filename):
-        env = neticapy.Environ()
-        res, mesg = env.init_netica()
-        print(mesg)
-        if res < 0:
-            raise SystemExit
-        self.input = env.new_file_stream(filename).read_net(neticapy.ReadingOption.NO_VISUAL_INFO)
+        self.input = open(filename, "r").read()
         self.nodes = {}
         self.cpts = {}
         self.BayesNet = BayesNet()
@@ -40,9 +35,10 @@ class DSC_parser:
             count += 1
         return prob_dict
 
+
     def parse_nodes(self):
         node_str = re.findall(
-            r'(node [^\{]*?\{[^\{]*?\{[^\}]*?\}[^\}]*?\})([\s]*?)', self.input.nodes, re.M | re.I | re.S)
+            r'(node [^\{]*?\{[^\{]*?\{[^\}]*?\}[^\}]*?\})([\s]*?)', self.input, re.M | re.I | re.S)
         nodes = []
         count = 0
         for r in node_str:
@@ -50,9 +46,13 @@ class DSC_parser:
             _id = re.search(
                 r'node[\s]*([^\n\{\s]*)', r, re.M | re.I).groups()[0]
             name = self.fetch_value(r, 'name')
-            values_str = re.search(
-                r'[;\{][\s]*?(type[^\{]*?:[^\{]*?\{[^\}]*?\};)', r, re.M | re.I).groups()[0]
-            values = re.findall(r'"([^"]*?)",?', values_str, re.M | re.I)
+            try:
+                values_str = re.search(
+                    r'[;\{][\s]*?(type[^\{]*?:[^\{]*?\{[^\}]*?\};)', r, re.M | re.I).groups()[0]
+                values = re.findall(r'"([^"]*?)",?', values_str, re.M | re.I)
+            except:
+                values_str = None
+                values = [' ', ' ']
             try:
                 position = eval(self.fetch_value(r, 'position'))
             except:
@@ -60,9 +60,10 @@ class DSC_parser:
             label = self.fetch_value(r, 'label')
             category = self.fetch_value(r, 'category')
             nodes.append(Node(count, _id, name, values,
-                              position, label, category, [], [0]))
+                            position, label, category, [], [0]))
             count += 1
         self.nodes = {n.id: n for n in nodes}
+
 
     def parse_probabilities(self):
         prob_str = re.findall(
@@ -111,6 +112,7 @@ class DSC_parser:
                 self.cpts[var_name] = {(): self.create_prob_dist(
                     self.nodes[var_name].values, [float(l)/100 for l in lines])}
 
+
     def create_BayesNet(self):
         self.parse_nodes()
         self.parse_probabilities()
@@ -124,9 +126,7 @@ class DSC_parser:
             for node in sorted_nodes:
                 if (not node.id in added_nodes) and (len([n for n in node.parents if n in added_nodes]) == len(node.parents)):
                     self.BayesNet.add(node.id, node.parents,
-                                      self.cpts[node.id])
+                                    self.cpts[node.id])
                     added_nodes.append(node.id)
         globalize(self.BayesNet.lookup)
-        #self.jointDist = joint_distribution(self.BayesNet)
-
-
+        # self.jointDist = joint_distribution(self.BayesNet)

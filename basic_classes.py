@@ -3,6 +3,7 @@ from collections import defaultdict, Counter
 import itertools
 import math
 import random
+import numpy as np
 
 
 class BayesNet(object):
@@ -14,12 +15,12 @@ class BayesNet(object):
 
     def add(self, name, parentnames, cpt):
         "Add a new Variable to the BayesNet. Parentnames must have been added previously."
+
         parents = [self.lookup[name] for name in parentnames]
-        var = Variable(name, cpt, parents)
+        var = cpt
         self.variables.append(var)
         self.lookup[name] = var
         return self
-
 
 class Variable(object):
     "A discrete random variable; conditional on zero or more parent Variables."
@@ -87,8 +88,10 @@ def P(var, evidence={}):
 
 def normalize(dist):
     "Normalize a {key: value} distribution so values sum to 1.0. Mutates dist and returns it."
+    print(dist.values())
     total = sum(dist.values())
     for key in dist:
+        print(f'dist_key {key}')
         dist[key] = dist[key] / total
         assert 0 <= dist[key] <= 1, "Probabilities must be between 0 and 1."
     return dist

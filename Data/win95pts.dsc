@@ -6,6 +6,19 @@ service
 	cost: fix = 480.00;
 }
 
+node AppOK
+{
+	name: "Application";
+	type: discrete[2] =
+	{
+		"Correct",
+		"Incorrect/Corrupt"
+	};
+	position: (20420, 10150);
+	label: fixobs;
+	cost: fix = 10.00, observe = 1.00;
+}
+
 node AppData
 {
 	name: "Application Data";
@@ -795,19 +808,6 @@ node FllCrrptdBffr
 	cost: fix = 3.00;
 }
 
-node AppOK
-{
-	name: "Application";
-	type: discrete[2] =
-	{
-		"Correct",
-		"Incorrect/Corrupt"
-	};
-	position: (20420, 10150);
-	label: fixobs;
-	cost: fix = 10.00, observe = 1.00;
-}
-
 node DataFile
 {
 	name: "Document";
@@ -988,7 +988,7 @@ node PTROFFLINE
 
 probability(AppData | AppOK, DataFile)
 {
-	function: max;
+	//function: max;
 	(0, 0): 0.9999, 0.0001;
 	(1, 0): 0, 1;
 	(0, 1): 0, 1;
@@ -1006,7 +1006,7 @@ probability(PrtSpool)
 
 probability(PrtData | PrtOn, PrtPaper, PC2PRT, PrtMem, PrtTimeOut, FllCrrptdBffr, TnrSpply)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0, 0, 0, 0, 0): 0.99, 0.01;
 	(1, 0, 0, 0, 0, 0, 0): 0, 1;
 	(0, 1, 0, 0, 0, 0, 0): 0, 1;
@@ -1034,7 +1034,7 @@ probability(PrtThread)
 
 probability(GDIOUT | PrtDriver, GDIIN, DrvSet, DrvOK)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0, 0): 0.99, 0.01;
 	(1, 0, 0, 0): 0.1, 0.9;
 	(0, 1, 0, 0): 0.1, 0.9;
@@ -1044,7 +1044,7 @@ probability(GDIOUT | PrtDriver, GDIIN, DrvSet, DrvOK)
 
 probability(EMFOK | AppData, DskLocal, PrtThread)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0): 0.99, 0.01;
 	(1, 0, 0): 0.1, 0.9;
 	(0, 1, 0): 0, 1;
@@ -1091,7 +1091,7 @@ probability(NetPrint)
 
 probability(PrtDataOut | GDIOUT, PrtSel)
 {
-	function: max;
+	//function: max;
 	(0, 0): 0.99, 0.01;
 	(1, 0): 0, 1;
 	(0, 1): 0, 1;
@@ -1236,7 +1236,7 @@ probability(PC2PRT | NetPrint, PrtDataOut, NetOK, LclOK, DSApplctn, DS_NTOK, DS_
 
 probability(NetOK | PrtPath, NtwrkCnfg, PTROFFLINE)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0): 0.99, 0.01;
 	(1, 0, 0): 0, 1;
 	(0, 1, 0): 0.1, 0.9;
@@ -1260,7 +1260,7 @@ probability(PrtMem)
 
 probability(LclOK | PrtCbl, PrtPort, CblPrtHrdwrOK)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0): 0.999, 0.001;
 	(1, 0, 0): 0, 1;
 	(0, 1, 0): 0, 1;
@@ -1274,7 +1274,7 @@ probability(PrtPort)
 
 probability(DeskPrntSpd | PrtMem, AppDtGnTm, PrntPrcssTm)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0): 0.999, 0.000999987;
 	(1, 0, 0): 0.25, 0.75;
 	(0, 1, 0): 0.000999987, 0.999;
@@ -1293,7 +1293,7 @@ probability(DSApplctn)
 
 probability(DS_NTOK | AppData, PrtPath, PrtMpTPth, NtwrkCnfg, PTROFFLINE)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0, 0, 0): 0.99, 0.01;
 	(1, 0, 0, 0, 0): 0.2, 0.8;
 	(0, 1, 0, 0, 0): 0, 1;
@@ -1304,7 +1304,7 @@ probability(DS_NTOK | AppData, PrtPath, PrtMpTPth, NtwrkCnfg, PTROFFLINE)
 
 probability(DS_LCLOK | AppData, PrtCbl, PrtPort, CblPrtHrdwrOK)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0, 0): 1, 0;
 	(1, 0, 0, 0): 0.1, 0.9;
 	(0, 1, 0, 0): 0, 1;
@@ -1334,7 +1334,7 @@ probability(ScrnFntNtPrntrFnt)
 
 probability(CmpltPgPrntd | PrtMem, PgOrnttnOK, PrntngArOK)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0): 0.99, 0.01;
 	(1, 0, 0): 0.3, 0.7;
 	(0, 1, 0): 0.00999999, 0.99;
@@ -1387,7 +1387,7 @@ probability(PrntrAccptsTrtyp)
 
 probability(TTOK | PrtMem, FntInstlltn, PrntrAccptsTrtyp)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0): 0.99, 0.00999999;
 	(1, 0, 0): 0.5, 0.5;
 	(0, 1, 0): 0.1, 0.9;
@@ -1413,7 +1413,7 @@ probability(NtwrkCnfg)
 
 probability(NnTTOK | PrtMem, ScrnFntNtPrntrFnt, FntInstlltn)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0): 0.99, 0.00999999;
 	(1, 0, 0): 0.5, 0.5;
 	(0, 1, 0): 0.1, 0.9;
@@ -1440,7 +1440,7 @@ probability(HrglssDrtnAftrPrnt | AppDtGnTm)
 
 probability(LclGrbld | AppData, PrtDriver, PrtMem, CblPrtHrdwrOK)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0, 0): 1, 0;
 	(1, 0, 0, 0): 0.2, 0.8;
 	(0, 1, 0, 0): 0.4, 0.6;
@@ -1450,7 +1450,7 @@ probability(LclGrbld | AppData, PrtDriver, PrtMem, CblPrtHrdwrOK)
 
 probability(NtGrbld | AppData, PrtDriver, PrtMem, NtwrkCnfg)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0, 0): 1, 0;
 	(1, 0, 0, 0): 0.3, 0.7;
 	(0, 1, 0, 0): 0.4, 0.6;
@@ -1460,7 +1460,7 @@ probability(NtGrbld | AppData, PrtDriver, PrtMem, NtwrkCnfg)
 
 probability(NnPSGrphc | PrtMem, GrphcsRltdDrvrSttngs, EPSGrphc)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0): 0.999, 0.001;
 	(1, 0, 0): 0.25, 0.75;
 	(0, 1, 0): 0.1, 0.9;
@@ -1469,7 +1469,7 @@ probability(NnPSGrphc | PrtMem, GrphcsRltdDrvrSttngs, EPSGrphc)
 
 probability(REPEAT | CblPrtHrdwrOK, NtwrkCnfg)
 {
-	function: max;
+	//function: max;
 	(0, 0): 1, 0;
 	(1, 0): 0.5, 0.5;
 	(0, 1): 0.5, 0.5;
@@ -1509,7 +1509,7 @@ probability(TstpsTxt | PrtPScript, AvlblVrtlMmry)
 
 probability(GrbldPS | GrbldOtpt, AvlblVrtlMmry)
 {
-	function: max;
+	//function: max;
 	(0, 0): 1, 0;
 	(1, 0): 0, 1;
 	(0, 1): 0.1, 0.9;
@@ -1517,7 +1517,7 @@ probability(GrbldPS | GrbldOtpt, AvlblVrtlMmry)
 
 probability(IncmpltPS | CmpltPgPrntd, AvlblVrtlMmry)
 {
-	function: max;
+	//function: max;
 	(0, 0): 1, 0;
 	(1, 0): 0, 1;
 	(0, 1): 0.3, 0.7;
@@ -1530,7 +1530,7 @@ probability(EPSGrphc)
 
 probability(PSGRAPHIC | PrtMem, GrphcsRltdDrvrSttngs, EPSGrphc)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0): 0.999, 0.001;
 	(1, 0, 0): 0.25, 0.75;
 	(0, 1, 0): 0.1, 0.9;
@@ -1560,7 +1560,7 @@ probability(PrtFile | PrtDataOut)
 
 probability(PrtIcon | NtwrkCnfg, PTROFFLINE)
 {
-	function: max;
+	//function: max;
 	(0, 0): 0.9999, 0.0001;
 	(1, 0): 0.25, 0.75;
 	(0, 1): 0.7, 0.3;
@@ -1592,7 +1592,7 @@ probability(Problem3 | CmpltPgPrntd, PrtPScript, IncmpltPS)
 
 probability(NtSpd | DeskPrntSpd, NtwrkCnfg, PrtQueue)
 {
-	function: max;
+	//function: max;
 	(0, 0, 0): 0.999, 0.000999987;
 	(1, 0, 0): 0, 1;
 	(0, 1, 0): 0.25, 0.75;
@@ -1648,126 +1648,4 @@ probability(TnrSpply)
 probability(PTROFFLINE)
 {
 	0.7, 0.3;
-}
-
-partitions
-{
-	node PC2PRT
-	{
-		level 0 parent NetPrint,
-		level 1 state 0,
-		level 2 parent DSApplctn,
-		level 3 state 0,
-		level 4 parent DS_LCLOK,
-		level 5 state 0,
-		level 5 state 1,
-		level 3 state 1,
-		level 4 parent PrtDataOut,
-		level 5 state 0,
-		level 6 parent LclOK,
-		level 7 state 0,
-		level 7 state 1,
-		level 5 state 1,
-		level 1 state 1,
-		level 2 parent DSApplctn,
-		level 3 state 0,
-		level 4 parent DS_NTOK,
-		level 5 state 0,
-		level 5 state 1,
-		level 3 state 1,
-		level 4 parent PrtDataOut,
-		level 5 state 0,
-		level 6 parent NetOK,
-		level 7 state 0,
-		level 7 state 1,
-		level 5 state 1
-	}
-
-	node Problem4
-	{
-		level 0 parent PrtPScript,
-		level 1 state 0,
-		level 2 parent PSGRAPHIC,
-		level 3 state 0,
-		level 3 state 1,
-		level 1 state 1,
-		level 2 parent NnPSGrphc,
-		level 3 state 0,
-		level 3 state 1
-	}
-
-	node Problem5
-	{
-		level 0 parent TrTypFnts,
-		level 1 state 0,
-		level 2 parent TTOK,
-		level 3 state 0,
-		level 3 state 1,
-		level 1 state 1,
-		level 2 parent NnTTOK,
-		level 3 state 0,
-		level 3 state 1
-	}
-
-	node GrbldOtpt
-	{
-		level 0 parent NetPrint,
-		level 1 state 0,
-		level 2 parent LclGrbld,
-		level 3 state 0,
-		level 3 state 1,
-		level 1 state 1,
-		level 2 parent NtGrbld,
-		level 3 state 0,
-		level 3 state 1
-	}
-
-	node TstpsTxt
-	{
-		level 0 parent PrtPScript,
-		level 1 state 0,
-		level 2 parent AvlblVrtlMmry,
-		level 3 state 0,
-		level 3 state 1,
-		level 1 state 1
-	}
-
-	node Problem6
-	{
-		level 0 parent PrtPScript,
-		level 1 state 0,
-		level 2 parent GrbldPS,
-		level 3 state 0,
-		level 3 state 1,
-		level 1 state 1,
-		level 2 parent GrbldOtpt,
-		level 3 state 0,
-		level 3 state 1
-	}
-
-	node Problem3
-	{
-		level 0 parent PrtPScript,
-		level 1 state 0,
-		level 2 parent IncmpltPS,
-		level 3 state 0,
-		level 3 state 1,
-		level 1 state 1,
-		level 2 parent CmpltPgPrntd,
-		level 3 state 0,
-		level 3 state 1
-	}
-
-	node Problem2
-	{
-		level 0 parent NetPrint,
-		level 1 state 0,
-		level 2 parent DeskPrntSpd,
-		level 3 state 0,
-		level 3 state 1,
-		level 1 state 1,
-		level 2 parent NtSpd,
-		level 3 state 0,
-		level 3 state 1
-	}
 }
