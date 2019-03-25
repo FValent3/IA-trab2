@@ -88,10 +88,8 @@ def P(var, evidence={}):
 
 def normalize(dist):
     "Normalize a {key: value} distribution so values sum to 1.0. Mutates dist and returns it."
-    print(dist.values())
     total = sum(dist.values())
     for key in dist:
-        print(f'dist_key {key}')
         dist[key] = dist[key] / total
         assert 0 <= dist[key] <= 1, "Probabilities must be between 0 and 1."
     return dist
