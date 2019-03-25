@@ -8,7 +8,7 @@ pathfinder = pathfinder_parser.BayesNet
 
 f= open("teste_parser.txt","w+")
 
-for x, y in pathfinder.lookup.items():
-    f.write(f'Keys: {x}  Values: {y}\n')
+for x in pathfinder.variables:
+    f.write(f'name: {x} table: {x.cpt}\n')
 # A classe de pathfinder BayasNet possui dois atributos um com as labels e outro um dicionario que uma das chaves e uma tabela de valores
 # e so adequar e montar a arvore
