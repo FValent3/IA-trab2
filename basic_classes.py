@@ -17,7 +17,7 @@ class BayesNet(object):
         "Add a new Variable to the BayesNet. Parentnames must have been added previously."
 
         parents = [self.lookup[name] for name in parentnames]
-        var = cpt
+        var = Variable(name, cpt, parents)
         self.variables.append(var)
         self.lookup[name] = var
         return self

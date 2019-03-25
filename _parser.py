@@ -46,13 +46,13 @@ class DSC_parser:
             _id = re.search(
                 r'node[\s]*([^\n\{\s]*)', r, re.M | re.I).groups()[0]
             name = self.fetch_value(r, 'name')
-            try:
-                values_str = re.search(
-                    r'[;\{][\s]*?(type[^\{]*?:[^\{]*?\{[^\}]*?\};)', r, re.M | re.I).groups()[0]
-                values = re.findall(r'"([^"]*?)",?', values_str, re.M | re.I)
-            except:
-                values_str = None
-                values = [' ', ' ']
+      #      try:
+            values_str = re.search(
+                r'[;\{][\s]*?(type[^\{]*?:[^\{]*?\{[^\}]*?\};)', r, re.M | re.I).groups()[0]
+            values = re.findall(r'"([^"]*?)",?', values_str, re.M | re.I)
+        #    except:
+        #        values_str = None
+        #        values = [' ', ' ']
             try:
                 position = eval(self.fetch_value(r, 'position'))
             except:
